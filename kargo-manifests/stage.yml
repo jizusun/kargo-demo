@@ -1,0 +1,82 @@
+apiVersion: v1
+items:
+  - apiVersion: kargo.akuity.io/v1alpha1
+    kind: Stage
+    metadata:
+      creationTimestamp: "2024-02-17T05:40:31Z"
+      generation: 1
+      name: prod
+      namespace: kargo-demo
+      resourceVersion: "6580"
+      uid: 03be57c6-38f1-4e51-9a09-fe4111e5e2f3
+    spec:
+      promotionMechanisms:
+        argoCDAppUpdates:
+          - appName: kargo-demo-prod
+            appNamespace: argocd
+        gitRepoUpdates:
+          - kustomize:
+              images:
+                - image: nginx
+                  path: stages/prod
+                  useDigest: false
+            repoURL: https://github.com/jizusun/kargo-demo.git
+            writeBranch: stage/prod
+      subscriptions:
+        upstreamStages:
+          - name: uat
+  - apiVersion: kargo.akuity.io/v1alpha1
+    kind: Stage
+    metadata:
+      creationTimestamp: "2024-02-17T05:40:31Z"
+      generation: 1
+      name: test
+      namespace: kargo-demo
+      resourceVersion: "4648"
+      uid: f1a7074f-089f-48db-a6e4-cb773e18c941
+    spec:
+      promotionMechanisms:
+        argoCDAppUpdates:
+          - appName: kargo-demo-test
+            appNamespace: argocd
+        gitRepoUpdates:
+          - kustomize:
+              images:
+                - image: nginx
+                  path: stages/test
+                  useDigest: false
+            repoURL: https://github.com/jizusun/kargo-demo.git
+            pullRequest: {} # create a PR against master instead of committing directly
+            # writeBranch: stage/test
+            writeBranch: main
+      subscriptions:
+        warehouse: kargo-demo
+  - apiVersion: kargo.akuity.io/v1alpha1
+    kind: Stage
+    metadata:
+      creationTimestamp: "2024-02-17T05:40:31Z"
+      generation: 1
+      name: uat
+      namespace: kargo-demo
+      resourceVersion: "6405"
+      uid: f6791870-3834-4fda-b05f-f37bb3d56bcb
+    spec:
+      promotionMechanisms:
+        argoCDAppUpdates:
+          - appName: kargo-demo-uat
+            appNamespace: argocd
+        gitRepoUpdates:
+          - kustomize:
+              images:
+                - image: nginx
+                  path: stages/uat
+                  useDigest: false
+            repoURL: https://github.com/jizusun/kargo-demo.git
+            writeBranch: stage/uat
+      subscriptions:
+        upstreamStages:
+          - name: test
+kind: List
+metadata:
+  resourceVersion: ""
+  selfLink: ""

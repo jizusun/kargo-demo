@@ -1,0 +1,13 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: kargo-demo
+  namespace: kargo-demo
+spec:
+  subscriptions:
+    - image:
+        repoURL: ghcr.io/linuxserver/nginx
+        # dl-innersource-docker.artifactory-ehv.ta.philips.com/nginx
+        # dl-innersource-docker.artifactory-ehv.ta.philips.com/nginx
+        semverConstraint: ^1.24.0-alpine
+        tagSelectionStrategy: SemVer
